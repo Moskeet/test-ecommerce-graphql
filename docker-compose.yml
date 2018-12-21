@@ -11,6 +11,7 @@ services:
             - ./:/var/www
         depends_on:
             - mysql
+            - writabledata
         links:
             - mysql
 
@@ -27,3 +28,13 @@ services:
             MYSQL_DATABASE: project-db
             MYSQL_USER: user
             MYSQL_PASSWORD: password
+
+    writabledata:
+        image: busybox:glibc
+        volumes:
+            - symfonycache:/var/www/var/cache
+            - symfonylogs:/var/www/var/logs
+
+volumes:
+    symfonycache:
+    symfonylogs:
