@@ -15,6 +15,14 @@ Query:
                         type: Int!
                 resolve: '@=resolver("App\\GraphQL\\Resolver\\ItemResolver::resolve", [args["id"]])'
 
+            getAuthToken:
+                type: String
+                args:
+                    username:
+                        type: String!
+                    password:
+                        type: String!
+                resolve: '@=resolver("App\\GraphQL\\Resolver\\UserResolver::getAuthToken", [args["username"], args["password"]])'
             getCatalogs:
                 type: "[Category]"
                 args:
