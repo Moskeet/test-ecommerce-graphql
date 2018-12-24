@@ -33,7 +33,7 @@ class Item
     /**
      * @var float
      *
-     * @ORM\Column(type="decimal", precision=2, scale=12)
+     * @ORM\Column(type="decimal", precision=12, scale=2)
      */
     private $price;
 
