@@ -2,6 +2,7 @@ Category:
     type: object
     config:
         description: "A category"
+        resolveField: '@=resolver("App\\GraphQL\\Resolver\\CategoryResolver", [info, value, args])'
         fields:
             id:
                 type: "Int!"
@@ -9,3 +10,6 @@ Category:
             name:
                 type: "String"
                 description: "Category name."
+            items:
+                type: ItemConnection
+                argsBuilder: Relay::ForwardConnection

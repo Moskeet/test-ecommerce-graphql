@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Traits\IdTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -29,6 +30,11 @@ class Category
      * )
      */
     private $items;
+
+    public function __construct()
+    {
+        $this->items = new ArrayCollection();
+    }
 
     /**
      * @return string

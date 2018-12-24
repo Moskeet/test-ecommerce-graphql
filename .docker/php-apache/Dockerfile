@@ -8,5 +8,7 @@ RUN apt-get update \
  && mv /var/www/html /var/www/public \
  && curl -sS https://getcomposer.org/installer \
   | php -- --install-dir=/usr/local/bin --filename=composer
+RUN chmod 777 /var/www/var/cache /var/www/var/log
+
 
 WORKDIR /var/www

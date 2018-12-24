@@ -1,7 +1,16 @@
 Query:
     type: object
     config:
-        description: "Categories ORM repository"
         fields:
-            apartment:
-                type: "category"
+            getCategory:
+                type: Category
+                args:
+                    id:
+                        type: Int
+                resolve: '@=resolver("App\\GraphQL\\Resolver\\CategoryResolver::resolve", [args["id"]])'
+            getItem:
+                type: Item
+                args:
+                    id:
+                        type: Int
+                resolve: '@=resolver("App\\GraphQL\\Resolver\\ItemResolver::resolve", [args["id"]])'

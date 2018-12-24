@@ -1,0 +1,12 @@
+Item:
+    type: object
+    config:
+        description: "An item"
+        resolveField: '@=resolver("App\\GraphQL\\Resolver\\ItemResolver", [info, value, args])'
+        fields:
+            id:
+                type: "Int!"
+                description: "The unique ID of the item."
+            name:
+                type: "String"
+                description: "Item name."
