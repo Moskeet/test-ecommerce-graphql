@@ -32,8 +32,8 @@ services:
     writabledata:
         image: busybox:glibc
         volumes:
-            - symfonycache:/var/www/var/cache
-            - symfonylogs:/var/www/var/logs
+            - symfonycache:/var/www/var/cache:Z
+            - symfonylogs:/var/www/var/log:Z
 
 volumes:
     symfonycache:

@@ -1,0 +1,7 @@
+Query:
+    type: object
+    config:
+        description: "Categories ORM repository"
+        fields:
+            apartment:
+                type: "category"
