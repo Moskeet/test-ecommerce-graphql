@@ -4,7 +4,6 @@ namespace App\GraphQL\Resolver;
 
 use App\Entity\Category;
 use Doctrine\ORM\EntityManagerInterface;
-use GraphQL\Type\Definition\ResolveInfo;
 use Overblog\GraphQLBundle\Definition\Argument;
 use Overblog\GraphQLBundle\Definition\Resolver\ResolverInterface;
 use Overblog\GraphQLBundle\Relay\Connection\Output\Connection;
@@ -12,6 +11,8 @@ use Overblog\GraphQLBundle\Relay\Connection\Paginator;
 
 class CategoryResolver implements ResolverInterface
 {
+    use InvokeTrait;
+
     /**
      * @var EntityManagerInterface
      */
@@ -26,20 +27,6 @@ class CategoryResolver implements ResolverInterface
     }
 
     /**
-     * @param ResolveInfo $info
-     * @param $value
-     * @param Argument $args
-     *
-     * @return mixed
-     */
-    public function __invoke(ResolveInfo $info, $value, Argument $args)
-    {
-        $method = $info->fieldName;
-
-        return $this->$method($value, $args);
-    }
-
-    /**
      * @param string $id
      *
      * @return Category
@@ -47,6 +34,22 @@ class CategoryResolver implements ResolverInterface
     public function resolve(string $id) :Category
     {
         return $this->em->find(Category::class, $id);
+    }
+
+    /**
+     * @param bool $showCategories
+     *
+     * @return Category[]
+     */
+    public function getCollection(bool $showCategories = true) :array
+    {
+        if ($showCategories) {
+            return $this->em
+                ->getRepository(Category::class)
+                ->findAll();
+        }
+
+        return [];
     }
 
     /**

@@ -10,3 +10,6 @@ Item:
             name:
                 type: "String"
                 description: "Item name."
+            price:
+                type: "Float"
+                description: "Item price."

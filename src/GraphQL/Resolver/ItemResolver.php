@@ -4,12 +4,12 @@ namespace App\GraphQL\Resolver;
 
 use App\Entity\Item;
 use Doctrine\ORM\EntityManagerInterface;
-use GraphQL\Type\Definition\ResolveInfo;
-use Overblog\GraphQLBundle\Definition\Argument;
 use Overblog\GraphQLBundle\Definition\Resolver\ResolverInterface;
 
 class ItemResolver implements ResolverInterface
 {
+    use InvokeTrait;
+
     /**
      * @var EntityManagerInterface
      */
@@ -24,20 +24,6 @@ class ItemResolver implements ResolverInterface
     }
 
     /**
-     * @param ResolveInfo $info
-     * @param $value
-     * @param Argument $args
-     *
-     * @return mixed
-     */
-    public function __invoke(ResolveInfo $info, $value, Argument $args)
-    {
-        $method = $info->fieldName;
-
-        return $this->$method($value, $args);
-    }
-
-    /**
      * @param string $id
      *
      * @return Item
@@ -45,6 +31,20 @@ class ItemResolver implements ResolverInterface
     public function resolve(string $id) :Item
     {
         return $this->em->find(Item::class, $id);
+    }
+
+    /**
+     * @param int $categoryId
+     *
+     * @return array
+     */
+    public function getCollection(int $categoryId) :array
+    {
+        return $this->em
+            ->getRepository(Item::class)
+            ->findBy([
+                'category' => $categoryId,
+            ]);
     }
 
     /**

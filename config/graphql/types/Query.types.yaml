@@ -6,11 +6,24 @@ Query:
                 type: Category
                 args:
                     id:
-                        type: Int
+                        type: Int!
                 resolve: '@=resolver("App\\GraphQL\\Resolver\\CategoryResolver::resolve", [args["id"]])'
             getItem:
                 type: Item
                 args:
                     id:
-                        type: Int
+                        type: Int!
                 resolve: '@=resolver("App\\GraphQL\\Resolver\\ItemResolver::resolve", [args["id"]])'
+
+            getCatalogs:
+                type: "[Category]"
+                args:
+                    showCategories:
+                        type: Boolean
+                resolve: '@=resolver("App\\GraphQL\\Resolver\\CategoryResolver::getCollection", [args["showCategories"]])'
+            getItems:
+                type: "[Item]"
+                args:
+                    categoryId:
+                        type: Int
+                resolve: '@=resolver("App\\GraphQL\\Resolver\\ItemResolver::getCollection", [args["categoryId"]])'
