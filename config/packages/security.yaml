@@ -17,23 +17,9 @@ security:
             security: false
         main:
             pattern: ^/
-#            form_login:
-#                provider: fos_userbundle
-#                csrf_token_generator: security.csrf.token_manager
-#                # if you are using Symfony < 2.8, use the following config instead:
-#                # csrf_provider: form.csrf_provider
-#
-#            logout:       true
             anonymous:    true
             stateless:    true
-
-            # activate different ways to authenticate
-
-            # http_basic: true
-            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: true
-            # https://symfony.com/doc/current/security/form_login_setup.html
+            graphql_token: true
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used

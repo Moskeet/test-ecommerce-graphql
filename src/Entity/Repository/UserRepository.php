@@ -11,8 +11,6 @@ class UserRepository extends EntityRepository
      * @param string $apiToken
      *
      * @return User|null
-     *
-     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function getUserByToken(string $apiToken) :?User
     {
@@ -21,6 +19,8 @@ class UserRepository extends EntityRepository
             ->where('md5(u.password) = :api_token')
             ->setParameter(':api_token', $apiToken)
             ->orderBy('u.id')
+            ->setFirstResult(0)
+            ->setMaxResults(1)
         ;
 
         return $qb->getQuery()->getOneOrNullResult();

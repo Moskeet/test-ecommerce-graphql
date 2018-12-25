@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Security\Factory\GraphQLTokenFactory;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -54,5 +55,11 @@ class Kernel extends BaseKernel
         $routes->import($confDir.'/{routes}/*'.self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir.'/{routes}/'.$this->environment.'/**/*'.self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir.'/{routes}'.self::CONFIG_EXTS, '/', 'glob');
+    }
+
+    public function build(ContainerBuilder $container)
+    {
+        $extension = $container->getExtension('security');
+        $extension->addSecurityListenerFactory(new GraphQLTokenFactory());
     }
 }

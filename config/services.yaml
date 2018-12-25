@@ -26,3 +26,13 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Security\Authentication\Provider\GraphQLTokenProvider:
+        public: false
+
+    App\Security\Firewall\GraphQLTokenListener:
+        arguments:
+            - '@security.token_storage'
+            - '@security.authentication.manager'
+            - '@doctrine.orm.default_entity_manager'
+        public: false
