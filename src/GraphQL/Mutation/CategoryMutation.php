@@ -38,9 +38,9 @@ class CategoryMutation implements MutationInterface
     /**
      * @param string $name
      *
-     * @return Category
+     * @return Category|null
      */
-    public function create(string $name) :Category
+    public function createAction(string $name) :?Category
     {
         $user = $this->extractUser($this->tokenStorage);
 

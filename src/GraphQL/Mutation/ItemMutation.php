@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Mutation;
 
+use App\Entity\Category;
 use App\Entity\Item;
 use App\GraphQL\NotAuthorizedException;
 use App\Security\UserExtractorTrait;
@@ -35,11 +36,13 @@ class ItemMutation
     }
 
     /**
+     * @param int $category
      * @param string $name
+     * @param float $price
      *
      * @return Item
      */
-    public function create(string $name, float $price) :?Item
+    public function createAction(int $category, string $name, float $price) :?Item
     {
         $user = $this->extractUser($this->tokenStorage);
 
@@ -47,8 +50,10 @@ class ItemMutation
             throw new NotAuthorizedException();
         }
 
+        $category = $this->em->getRepository(Category::class)->find($category);
         $item = new Item();
         $item
+            ->setCategory($category)
             ->setName($name)
             ->setPrice($price)
         ;

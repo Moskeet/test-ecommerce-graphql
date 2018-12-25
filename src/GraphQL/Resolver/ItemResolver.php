@@ -66,4 +66,14 @@ class ItemResolver implements ResolverInterface
     {
         return $Item->getName();
     }
+
+    /**
+     * @param Item $Item
+     *
+     * @return string
+     */
+    public function price(Item $Item) :string
+    {
+        return $Item->getPrice();
+    }
 }

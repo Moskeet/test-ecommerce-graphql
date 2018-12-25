@@ -7,12 +7,14 @@ Mutation:
                 args:
                     name:
                         type: String!
-                resolve: '@=mutation("App\\GraphQL\\Mutation\\CategoryMutation::create", [args["name"]])'
+                resolve: "@=mutation('category_create', [args['name']])"
             createItem:
                 type: Item
                 args:
+                    category:
+                        type: Int!
                     name:
                         type: String!
                     price:
                         type: Float!
-                resolve: '@=mutation("App\\GraphQL\\Mutation\\ItemMutation::create", [args["name"], args["price"]])'
+                resolve: "@=mutation('item_create', [args['category'], args['name'], args['price']])"
