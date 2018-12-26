@@ -17,5 +17,5 @@ Transaction:
                 type: "String"
                 description: "Purchace description."
             totalPrice:
-                type: "Fload"
+                type: "Float"
                 description: "Purchace sum."

@@ -100,7 +100,7 @@ class TransactionMutation
             $totalPrice += $itemsPrice;
             $description[] = sprintf('%s %sx%d = %s',
                 $basketItem->getItem()->getName(),
-                $basketItem->getItem()->getPrice(),
+                round($basketItem->getItem()->getPrice(), 2),
                 $basketItem->getAmount(),
                 round($itemsPrice, 2)
             );

@@ -36,5 +36,5 @@ Mutation:
                         description: 'Item id, to be removed.'
                 resolve: "@=mutation('basket_remove', [args['item']])"
             payment:
-                type: Basket
+                type: Transaction
                 resolve: "@=mutation('transaction_create')"

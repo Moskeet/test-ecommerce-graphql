@@ -19,6 +19,10 @@ Query:
                 resolve: "@=resolver('basket_get')"
             getTransaction:
                 type: Transaction
+                args:
+                    id:
+                        type: Int!
+                        description: Transaction ID.
                 resolve: "@=resolver('transaction_get')"
 
             getAuthToken:
