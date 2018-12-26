@@ -16,10 +16,7 @@ Query:
                 resolve: "@=resolver('item_get', [args['id']])"
             getBasket:
                 type: Basket
-                args:
-                    showBasket:
-                        type: Boolean
-                resolve: '@=resolver("App\\GraphQL\\Resolver\\BasketResolver::resolve", [args["showBasket"]])'
+                resolve: "@=resolver('basket_get')"
 
             getAuthToken:
                 type: String
@@ -28,16 +25,14 @@ Query:
                         type: String!
                     password:
                         type: String!
-                resolve: '@=resolver("App\\GraphQL\\Resolver\\UserResolver::getAuthToken", [args["username"], args["password"]])'
+                resolve: "@=resolver('item_get_collection', [args['username'], args['password']])"
             getCatalogs:
                 type: "[Category]"
-                args:
-                    showCategories:
-                        type: Boolean
-                resolve: '@=resolver("App\\GraphQL\\Resolver\\CategoryResolver::getCollection", [args["showCategories"]])'
+                resolve: "@=resolver('category_get_collection')"
             getItems:
                 type: "[Item]"
                 args:
-                    categoryId:
+                    id:
                         type: Int!
-                resolve: '@=resolver("App\\GraphQL\\Resolver\\ItemResolver::getCollection", [args["categoryId"]])'
+                        description: Category ID.
+                resolve: "@=resolver('item_get_collection', [args['id']])"

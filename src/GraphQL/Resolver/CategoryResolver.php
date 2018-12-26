@@ -47,20 +47,14 @@ class CategoryResolver implements ResolverInterface
     }
 
     /**
-     * @param bool $showCategories
-     *
      * @return Category[]
      */
-    public function getCollection(bool $showCategories = true) :array
+    public function getCategories() :array
     {
-        if ($showCategories) {
-            return $this->em
-                ->getRepository(Category::class)
-                ->findAll()
-            ;
-        }
-
-        return [];
+        return $this->em
+            ->getRepository(Category::class)
+            ->findAll()
+        ;
     }
 
     /**
@@ -96,10 +90,6 @@ class CategoryResolver implements ResolverInterface
             return array_slice($items, $offset, $limit ?? 10);
         });
 
-        var_dump($paginator->auto($args, count($items)));
-
-        die();
-
-//        return $paginator->auto($args, count($items));
+        return $paginator->auto($args, count($items));
     }
 }

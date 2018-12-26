@@ -37,15 +37,29 @@ services:
             - '@doctrine.orm.default_entity_manager'
         public: false
 
+
+
+    app.graph_ql.mutation.user_resolver:
+        class: 'App\GraphQL\Resolver\UserResolver'
+        tags:
+            - { name: overblog_graphql.resolver, alias: 'user_get_auth_token', method: getAuthToken }
+
     app.graph_ql.mutation.category_resolver:
         class: 'App\GraphQL\Resolver\CategoryResolver'
         tags:
             - { name: overblog_graphql.resolver, alias: 'category_get', method: getCategory }
+            - { name: overblog_graphql.resolver, alias: 'category_get_collection', method: getCategories }
 
     app.graph_ql.mutation.item_resolver:
         class: 'App\GraphQL\Resolver\ItemResolver'
         tags:
             - { name: overblog_graphql.resolver, alias: 'item_get', method: getItem }
+            - { name: overblog_graphql.resolver, alias: 'item_get_collection', method: getItems }
+
+    app.graph_ql.mutation.basket_resolver:
+        class: 'App\GraphQL\Resolver\BasketResolver'
+        tags:
+            - { name: overblog_graphql.resolver, alias: 'basket_get', method: getBasket }
 
     app.graph_ql.mutation.category_mutation:
         class: 'App\GraphQL\Mutation\CategoryMutation'

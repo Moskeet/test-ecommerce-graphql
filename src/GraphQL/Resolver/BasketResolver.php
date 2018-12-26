@@ -40,7 +40,7 @@ class BasketResolver implements ResolverInterface
     }
 
     /**
-     * @param string $id
+     * @param bool $showBasket
      *
      * @return Basket
      */
@@ -54,6 +54,28 @@ class BasketResolver implements ResolverInterface
 
         if (!$showBasket) {
             return null;
+        }
+
+        $backet = $this->em
+            ->getRepository(Basket::class)
+            ->getUserBasket($user)
+        ;
+
+        return $backet
+            ? $backet
+            : new Basket()
+        ;
+    }
+
+    /**
+     * @return Basket
+     */
+    public function getBasket() :Basket
+    {
+        $user = $this->extractUser($this->tokenStorage);
+
+        if (!$user || !$user->hasRole('ROLE_ADMIN')) {
+            throw new NotAuthorizedException();
         }
 
         $backet = $this->em

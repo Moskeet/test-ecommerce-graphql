@@ -44,16 +44,16 @@ class ItemResolver implements ResolverInterface
     }
 
     /**
-     * @param int $categoryId
+     * @param int $id
      *
      * @return array
      */
-    public function getCollection(int $categoryId) :array
+    public function getItems(int $id) :array
     {
         return $this->em
             ->getRepository(Item::class)
             ->findBy([
-                'category' => $categoryId,
+                'category' => $id,
             ]);
     }
 

@@ -11,6 +11,29 @@ Returns token, which should be used for authed calls with header:
 X-AUTH-TOKEN: [token-as-is]
 ```
 
+### getCatalogs
+```
+query {
+    getCatalogs {
+        id
+        name
+    }
+}
+```
+Returns all categories.
+
+###
+```
+query {
+    getItems (id: 1) {
+        id
+        name
+    price
+    }
+}
+```
+Get items for specified category ID
+
 ### addToBasket
 ```
 mutation {
@@ -69,6 +92,20 @@ query {
 ```
 Retrive category by it's ID
 
+### getBasket
+```
+query {
+    getBasket {
+        totalTitles
+        totalPrice
+        totalItems
+    }
+}
+```
+Call should be signed with header:
+```
+X-AUTH-TOKEN: [token-as-is]
+```
 
 ```
 query {
