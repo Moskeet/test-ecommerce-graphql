@@ -88,3 +88,9 @@ services:
         class: 'App\GraphQL\Mutation\TransactionMutation'
         tags:
             - { name: overblog_graphql.mutation, alias: 'transaction_create', method: createAction }
+
+    app.command.apply_state_machine_command:
+        class: 'App\Command\ApplyStateMachineCommand'
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@workflow.registry'

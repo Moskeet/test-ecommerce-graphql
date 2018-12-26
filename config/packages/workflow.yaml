@@ -1,0 +1,24 @@
+framework:
+    workflows:
+        transaction:
+            type: 'state_machine'
+            marking_store:
+                type: 'single_state'
+                argument: 'status'
+            supports:
+                - 'App\Entity\Transaction'
+            places:
+                - new
+                - processing
+                - accepted
+                - declined
+            transitions:
+                process:
+                    from: new
+                    to: processing
+                accept:
+                    from: processing
+                    to: accepted
+                decline:
+                    from: processing
+                    to: declined

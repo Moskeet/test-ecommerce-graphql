@@ -26,4 +26,15 @@ class TransactionRepository extends EntityRepository
 
         return $qb->getQuery()->getOneOrNullResult();
     }
+
+    /**
+     * @return array
+     */
+    public function getStateChangable() :array
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->where($qb->expr()->notIn('t.status', [Transaction::STATUS_ACCEPTED, Transaction::STATUS_DECLINED]));
+
+        return $qb->getQuery()->execute();
+    }
 }
