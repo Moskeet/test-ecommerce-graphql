@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\BasketRepository")
  * @ORM\Table
  */
 class Basket
@@ -56,6 +56,26 @@ class Basket
     public function setOwner(User $value) :self
     {
         $this->owner = $value;
+
+        return $this;
+    }
+
+    /**
+     * @return BasketItem[]|ArrayCollection
+     */
+    public function getBasketItems() :ArrayCollection
+    {
+        return $this->basketItems;
+    }
+
+    /**
+     * @param BasketItem[] $value
+     *
+     * @return $this
+     */
+    public function setBasketItems(array $value) :self
+    {
+        $this->basketItems = $value;
 
         return $this;
     }

@@ -1,0 +1,18 @@
+BasketItem:
+    type: object
+    config:
+        description: "A basket item"
+        resolveField: '@=resolver("App\\GraphQL\\Resolver\\BasketItemResolver", [info, value, args])'
+        fields:
+            name:
+                type: "String"
+                description: "Item name."
+            price:
+                type: "Float"
+                description: "Item price."
+            amount:
+                type: "Int"
+                description: "Item(s) amount."
+            totalPrice:
+                type: "Float"
+                description: "Total item(s) price."

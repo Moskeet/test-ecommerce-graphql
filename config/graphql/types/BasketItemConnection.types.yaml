@@ -1,0 +1,4 @@
+BasketItemConnection:
+    type: relay-connection
+    config:
+        nodeType: BasketItem!

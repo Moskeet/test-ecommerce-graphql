@@ -1,0 +1,18 @@
+Basket:
+    type: object
+    config:
+        description: "A basket"
+        resolveField: '@=resolver("App\\GraphQL\\Resolver\\BasketResolver", [info, value, args])'
+        fields:
+            totalTitles:
+                type: Int
+                description: "Amount of the different products."
+            totalItems:
+                type: Int
+                description: "Total amount of the products."
+            totalPrice:
+                type: Int
+                description: "Total price of the products."
+            basketItems:
+                type: BasketItemConnection
+                argsBuilder: Relay::ForwardConnection

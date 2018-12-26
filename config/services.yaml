@@ -46,3 +46,9 @@ services:
         class: 'App\GraphQL\Mutation\ItemMutation'
         tags:
             - { name: overblog_graphql.mutation, alias: 'item_create', method: createAction }
+
+    app.graph_ql.mutation.basket_mutation:
+        class: 'App\GraphQL\Mutation\BasketMutation'
+        tags:
+            - { name: overblog_graphql.mutation, alias: 'basket_add', method: basketAddItem }
+            - { name: overblog_graphql.mutation, alias: 'basket_remove', method: basketRemoveItem }

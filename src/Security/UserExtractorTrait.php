@@ -15,7 +15,6 @@ trait UserExtractorTrait
     private function extractUser(TokenStorageInterface $tokenStorage)
     {
         if (($token = $tokenStorage->getToken()) === null) {
-            throw new \LogicException(sprintf('token = null'));
             return null;
         }
 
@@ -23,7 +22,6 @@ trait UserExtractorTrait
             return $user;
         }
 
-        throw new \LogicException(sprintf('$user !instance, but %s', get_class($user)));
         return null;
     }
 }

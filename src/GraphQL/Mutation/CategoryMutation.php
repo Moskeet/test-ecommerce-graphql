@@ -44,10 +44,6 @@ class CategoryMutation implements MutationInterface
     {
         $user = $this->extractUser($this->tokenStorage);
 
-        if ($user === null) {
-            throw new \LogicException(sprintf('isNull'));
-        }
-
         if (!$user || !$user->hasRole('ROLE_ADMIN')) {
             throw new NotAuthorizedException();
         }
