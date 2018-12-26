@@ -1,0 +1,21 @@
+Transaction:
+    type: object
+    config:
+        description: "A transaction"
+        resolveField: '@=resolver("App\\GraphQL\\Resolver\\TransactionResolver", [info, value, args])'
+        fields:
+            id:
+                type: "Int!"
+                description: "The unique ID of the transaction."
+            ownerId:
+                type: "Int"
+                description: "Owner id."
+            owner:
+                type: "String"
+                description: "Owner username."
+            description:
+                type: "String"
+                description: "Purchace description."
+            totalPrice:
+                type: "Fload"
+                description: "Purchace sum."

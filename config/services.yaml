@@ -61,6 +61,12 @@ services:
         tags:
             - { name: overblog_graphql.resolver, alias: 'basket_get', method: getBasket }
 
+    app.graph_ql.mutation.transaction_resolver:
+        class: 'App\GraphQL\Resolver\TransactionResolver'
+        tags:
+            - { name: overblog_graphql.resolver, alias: 'transaction_get', method: getTransaction }
+            - { name: overblog_graphql.resolver, alias: 'transaction_get_collection', method: getTransactions }
+
     app.graph_ql.mutation.category_mutation:
         class: 'App\GraphQL\Mutation\CategoryMutation'
         tags:
@@ -76,3 +82,8 @@ services:
         tags:
             - { name: overblog_graphql.mutation, alias: 'basket_add', method: basketAddItem }
             - { name: overblog_graphql.mutation, alias: 'basket_remove', method: basketRemoveItem }
+
+    app.graph_ql.mutation.transaction_mutation:
+        class: 'App\GraphQL\Mutation\TransactionMutation'
+        tags:
+            - { name: overblog_graphql.mutation, alias: 'transaction_create', method: createAction }

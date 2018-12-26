@@ -17,6 +17,9 @@ Query:
             getBasket:
                 type: Basket
                 resolve: "@=resolver('basket_get')"
+            getTransaction:
+                type: Transaction
+                resolve: "@=resolver('transaction_get')"
 
             getAuthToken:
                 type: String
@@ -36,3 +39,10 @@ Query:
                         type: Int!
                         description: Category ID.
                 resolve: "@=resolver('item_get_collection', [args['id']])"
+            getTransactions:
+                type: "[Transaction]"
+                args:
+                    id:
+                        type: Int!
+                        description: User ID.
+                resolve: "@=resolver('transaction_get_collection', [args['id']])"

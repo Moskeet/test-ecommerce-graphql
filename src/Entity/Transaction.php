@@ -11,6 +11,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Transaction
 {
+    const STATUS_NEW = 'new';
+    const STATUS_PROCESSING = 'processing';
+    const STATUS_ACCEPTED = 'accepted';
+    const STATUS_DECLINED = 'declined';
+
     use IdTrait;
 
     /**
@@ -44,6 +49,11 @@ class Transaction
      * @ORM\Column(type="string")
      */
     private $description;
+
+    public function __construct()
+    {
+        $this->status = self::STATUS_NEW;
+    }
 
     /**
      * @return User
