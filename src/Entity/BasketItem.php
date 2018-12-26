@@ -20,7 +20,7 @@ class BasketItem
      *     targetEntity="App\Entity\Basket",
      *     inversedBy="basketItems"
      * )
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $basket;
 

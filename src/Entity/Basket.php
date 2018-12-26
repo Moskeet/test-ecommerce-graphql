@@ -20,7 +20,7 @@ class Basket
      * @ORM\OneToOne(
      *     targetEntity="App\Entity\User"
      * )
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $owner;
 
@@ -30,7 +30,7 @@ class Basket
      * @ORM\OneToMany(
      *     targetEntity="App\Entity\BasketItem",
      *     mappedBy="basket",
-     *     cascade={"remove","persist"}
+     *     cascade={"persist"}
      * )
      */
     private $basketItems;
