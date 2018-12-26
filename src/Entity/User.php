@@ -20,6 +20,13 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(type="decimal", precision=12, scale=2)
+     */
+    private $money;
+
+    /**
      * @var Transaction[]
      *
      * @ORM\OneToMany(
@@ -33,6 +40,27 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->transactions = new ArrayCollection();
+        $this->money = 0;
+    }
+
+    /**
+     * @return float
+     */
+    public function getMoney(): float
+    {
+        return $this->money;
+    }
+
+    /**
+     * @param float $value
+     *
+     * @return $this
+     */
+    public function setMoney(float $value) :self
+    {
+        $this->money = $value;
+
+        return $this;
     }
 
     /**
