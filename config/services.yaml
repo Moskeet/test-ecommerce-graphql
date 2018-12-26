@@ -37,6 +37,16 @@ services:
             - '@doctrine.orm.default_entity_manager'
         public: false
 
+    app.graph_ql.mutation.category_resolver:
+        class: 'App\GraphQL\Resolver\CategoryResolver'
+        tags:
+            - { name: overblog_graphql.resolver, alias: 'category_get', method: getCategory }
+
+    app.graph_ql.mutation.item_resolver:
+        class: 'App\GraphQL\Resolver\ItemResolver'
+        tags:
+            - { name: overblog_graphql.resolver, alias: 'item_get', method: getItem }
+
     app.graph_ql.mutation.category_mutation:
         class: 'App\GraphQL\Mutation\CategoryMutation'
         tags:

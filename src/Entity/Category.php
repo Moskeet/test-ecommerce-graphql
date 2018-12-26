@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Traits\IdTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -56,9 +57,9 @@ class Category
     }
 
     /**
-     * @return Item[]
+     * @return Item[]|Collection
      */
-    public function getItems(): array
+    public function getItems(): Collection
     {
         return $this->items;
     }
@@ -89,10 +90,10 @@ class Category
      * @param Item $value
      * @return $this
      */
-    public function removeItem($value): self
+    public function removeItem(Item $value): self
     {
-        if (($key = array_search($value, $this->items, true)) !== false) {
-            array_splice($this->items, $key, 1);
+        if ($this->items->contains($value)) {
+            $this->items->removeElement($value);
         }
 
         return $this;

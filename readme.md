@@ -45,7 +45,31 @@ X-AUTH-TOKEN: [token-as-is]
 
 Extra calls:
 ---
-### category
+
+### getItem
+```
+query {
+    getItem(id: 1) {
+        id
+        name
+        price
+    }
+}
+```
+Retrive item by it's ID
+
+### getCategory
+```
+query {
+    getCategory(id: 1) {
+        id
+        name
+    }
+}
+```
+Retrive category by it's ID
+
+
 ```
 query {
     category(id: 1){

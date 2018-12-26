@@ -34,6 +34,16 @@ class ItemResolver implements ResolverInterface
     }
 
     /**
+     * @param string $id
+     *
+     * @return Item
+     */
+    public function getItem(string $id) :Item
+    {
+        return $this->em->find(Item::class, $id);
+    }
+
+    /**
      * @param int $categoryId
      *
      * @return array

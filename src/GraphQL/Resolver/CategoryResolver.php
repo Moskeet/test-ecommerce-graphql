@@ -37,6 +37,16 @@ class CategoryResolver implements ResolverInterface
     }
 
     /**
+     * @param string $id
+     *
+     * @return Category
+     */
+    public function getCategory(string $id) :Category
+    {
+        return $this->em->find(Category::class, $id);
+    }
+
+    /**
      * @param bool $showCategories
      *
      * @return Category[]
@@ -46,7 +56,8 @@ class CategoryResolver implements ResolverInterface
         if ($showCategories) {
             return $this->em
                 ->getRepository(Category::class)
-                ->findAll();
+                ->findAll()
+            ;
         }
 
         return [];
@@ -80,11 +91,15 @@ class CategoryResolver implements ResolverInterface
      */
     public function items(Category $category, Argument $args) :Connection
     {
-        $items = $category->getItems();
+        $items = (array) $category->getItems();
         $paginator = new Paginator(function ($offset, $limit) use ($items) {
             return array_slice($items, $offset, $limit ?? 10);
         });
 
-        return $paginator->auto($args, count($items));
+        var_dump($paginator->auto($args, count($items)));
+
+        die();
+
+//        return $paginator->auto($args, count($items));
     }
 }
