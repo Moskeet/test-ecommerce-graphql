@@ -51,6 +51,25 @@ class TransactionResolver implements ResolverInterface
     }
 
     /**
+     * @return string
+     */
+    public function getTransactionStatus() :string
+    {
+        $user = $this->checkRoleAllowed('ROLE_USER');
+        /** @var Transaction|null $transaction */
+        $transaction = $this->em
+            ->getRepository(Transaction::class)
+            ->getLatestByUser($user)
+        ;
+
+        if (!$transaction) {
+            throw new \LogicException('You have no transactions.');
+        }
+
+        return $transaction->getStatus();
+    }
+
+    /**
      * @param string $id
      *
      * @return Transaction[]|array

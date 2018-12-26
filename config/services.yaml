@@ -65,6 +65,7 @@ services:
         class: 'App\GraphQL\Resolver\TransactionResolver'
         tags:
             - { name: overblog_graphql.resolver, alias: 'transaction_get', method: getTransaction }
+            - { name: overblog_graphql.resolver, alias: 'transaction_get_status', method: getTransactionStatus }
             - { name: overblog_graphql.resolver, alias: 'transaction_get_collection', method: getTransactions }
 
     app.graph_ql.mutation.category_mutation:

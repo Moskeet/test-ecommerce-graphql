@@ -6,7 +6,7 @@ use App\Entity\Traits\IdTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\TransactionRepository")
  * @ORM\Table
  */
 class Transaction
@@ -71,6 +71,26 @@ class Transaction
     public function setOwner(User $value) :self
     {
         $this->owner = $value;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setStatus(string $value) :self
+    {
+        $this->status = $value;
 
         return $this;
     }

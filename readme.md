@@ -90,7 +90,19 @@ Call should be signed with header:
 X-AUTH-TOKEN: [token-as-is]
 ```
 
-### payment
+### checkStatus
+*Allowed: ROLE_USER*
+```
+query{
+    checkStatus
+}
+```
+Check the status of the latest transaction.
+```
+X-AUTH-TOKEN: [token-as-is]
+```
+
+### getTransactions
 *Allowed: ROLE_ADMIN*
 ```
 query{

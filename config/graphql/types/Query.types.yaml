@@ -43,6 +43,9 @@ Query:
                         type: Int!
                         description: Category ID.
                 resolve: "@=resolver('item_get_collection', [args['id']])"
+            checkStatus:
+                type: "String!"
+                resolve: "@=resolver('transaction_get_status')"
             getTransactions:
                 type: "[Transaction]"
                 args:
