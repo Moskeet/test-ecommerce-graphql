@@ -4,7 +4,7 @@ namespace App\GraphQL\Mutation;
 
 use App\Entity\Category;
 use App\Entity\Item;
-use App\GraphQL\NotAuthorizedException;
+use App\GraphQL\Exception\NotAuthorizedException;
 use App\Security\UserExtractorTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;

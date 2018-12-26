@@ -3,7 +3,8 @@
 namespace App\GraphQL\Resolver;
 
 use App\Entity\Basket;
-use App\GraphQL\NotAuthorizedException;
+use App\Entity\BasketItem;
+use App\GraphQL\Exception\NotAuthorizedException;
 use App\Security\UserExtractorTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Overblog\GraphQLBundle\Definition\Argument;
@@ -83,13 +84,10 @@ class BasketResolver implements ResolverInterface
      */
     public function totalItems(Basket $basket) :int
     {
-        if (!$this->totalTitles($basket)) {
-            return 0;
-        }
-
         $total = 0;
 
-        foreach ($basket->getBasketItems() as $basketItem) {
+        foreach ($basket->getBasketItems()->toArray() as $basketItem) {
+            /** @var BasketItem $basketItem */
             $total += $basketItem->getAmount();
         }
 
@@ -104,17 +102,14 @@ class BasketResolver implements ResolverInterface
      */
     public function totalPrice(Basket $basket) :float
     {
-        if (!$this->totalTitles($basket)) {
-            return 0;
-        }
-
         $total = 0;
 
-        foreach ($basket->getBasketItems() as $basketItem) {
+        foreach ($basket->getBasketItems()->toArray() as $basketItem) {
+            /** @var BasketItem $basketItem */
             $total += $basketItem->getItem()->getPrice() * $basketItem->getAmount();
         }
 
-        return $total;
+        return round($total, 2);
     }
 
     /**

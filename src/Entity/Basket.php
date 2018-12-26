@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Traits\IdTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -61,9 +62,9 @@ class Basket
     }
 
     /**
-     * @return BasketItem[]|ArrayCollection
+     * @return BasketItem[]|Collection
      */
-    public function getBasketItems() :ArrayCollection
+    public function getBasketItems() :Collection
     {
         return $this->basketItems;
     }
@@ -73,7 +74,7 @@ class Basket
      *
      * @return $this
      */
-    public function setBasketItems(array $value) :self
+    public function setBasketItems(Collection $value) :self
     {
         $this->basketItems = $value;
 
@@ -97,10 +98,10 @@ class Basket
      *
      * @return $this
      */
-    public function removeBasketItem($value) :self
+    public function removeBasketItem(BasketItem $value) :self
     {
-        if (($key = array_search($value, $this->basketItems, true)) !== false) {
-            array_splice($this->basketItems, $key, 1);
+        if ($this->basketItems->contains($value)) {
+            $this->basketItems->removeElement($value);
         }
 
         return $this;

@@ -3,7 +3,7 @@
 namespace App\GraphQL\Mutation;
 
 use App\Entity\Category;
-use App\GraphQL\NotAuthorizedException;
+use App\GraphQL\Exception\NotAuthorizedException;
 use App\Security\UserExtractorTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Overblog\GraphQLBundle\Definition\Resolver\MutationInterface;

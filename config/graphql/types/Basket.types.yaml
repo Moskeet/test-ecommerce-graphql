@@ -11,7 +11,7 @@ Basket:
                 type: Int
                 description: "Total amount of the products."
             totalPrice:
-                type: Int
+                type: Float
                 description: "Total price of the products."
             basketItems:
                 type: BasketItemConnection

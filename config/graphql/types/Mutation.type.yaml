@@ -18,3 +18,20 @@ Mutation:
                     price:
                         type: Float!
                 resolve: "@=mutation('item_create', [args['category'], args['name'], args['price']])"
+            addToBasket:
+                type: Basket
+                args:
+                    item:
+                        type: Int!
+                        description: 'Item id.'
+                    amount:
+                        type: Int!
+                        description: 'Amount of the item, to be added'
+                resolve: "@=mutation('basket_add', [args['item'], args['amount']])"
+            removeFromBasket:
+                type: Basket
+                args:
+                    item:
+                        type: Int!
+                        description: 'Item id, to be removed.'
+                resolve: "@=mutation('basket_remove', [args['item']])"

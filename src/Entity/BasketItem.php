@@ -41,6 +41,11 @@ class BasketItem
      */
     private $amount;
 
+    public function __construct()
+    {
+        $this->amount = 0;
+    }
+
     /**
      * @return Basket
      */

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\GraphQL;
+namespace App\GraphQL\Exception;
 
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
