@@ -22,7 +22,8 @@ query {
     }
 }
 ```
-Returns all categories.
+Returns all categories. *Note*:
+Edge items can be used here.
 
 ### getItems
 *Allowed: Anonymous*
@@ -49,6 +50,7 @@ mutation {
 }
 ```
 Adds an item (amount inclusive) by it's ID to basket. Amount should be greater than 0.
+Edge basketItems can be used here.
 Call should be signed with header:
 ```
 X-AUTH-TOKEN: [token-as-is]
@@ -66,6 +68,7 @@ mutation {
 }
 ```
 Removes position from basket by item ID.
+Edge basketItems can be used here.
 Call should be signed with header:
 ```
 X-AUTH-TOKEN: [token-as-is]
@@ -97,7 +100,8 @@ query{
     checkStatus
 }
 ```
-Check the status of the latest transaction.
+Returns the status of the latest transaction.
+Call should be signed with header:
 ```
 X-AUTH-TOKEN: [token-as-is]
 ```
@@ -119,6 +123,21 @@ Retrieve all transactions by user ID
 
 Extra calls:
 ------------
+Calls which were added due to functionality testing, but they are useful.
+
+
+### getCategory
+*Allowed: Anonymous*
+```
+query {
+    getCategory(id: 1) {
+        id
+        name
+    }
+}
+```
+Retrive category by it's ID.
+Edge items can be used here.
 
 ### getItem
 *Allowed: Anonymous*
@@ -133,19 +152,6 @@ query {
 ```
 Retrive item by it's ID
 
-
-### getCategory
-*Allowed: Anonymous*
-```
-query {
-    getCategory(id: 1) {
-        id
-        name
-    }
-}
-```
-Retrive category by it's ID
-
 ### getBasket
 *Allowed: ROLE_USER*
 ```
@@ -157,6 +163,7 @@ query {
     }
 }
 ```
+Edge basketItems can be used here.
 Call should be signed with header:
 ```
 X-AUTH-TOKEN: [token-as-is]
