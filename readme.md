@@ -20,6 +20,11 @@ Installation:
   we need to create users inside this container
   - run
     ```
+    # composer install
+    ```
+    to install all dependencies
+  - run
+    ```
     # bin/console doctrine:migrations:migrate
     ```
     to create all required tables via migrations
