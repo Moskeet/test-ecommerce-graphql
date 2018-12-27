@@ -1,3 +1,56 @@
+Installation:
+-------------
+- run (first time)
+  ```
+  $ docker-compose up --build
+  ```
+  or (each next time, as folders with DB will be used from previous run)
+  ```
+  $ docker-compose up
+  ```
+- check hash of the containers
+  ```
+  $ docker ps
+  ```
+  we need 'php' container's ID
+- login into 'php' container's bash
+  ```
+  $ docker exec -it [container-id] /bin/bash
+  ```
+  we need to create users inside this container
+  - run
+    ```
+    # bin/console doctrine:migrations:migrate
+    ```
+    to create all required tables via migrations
+  - run
+    ```
+    # bin/console fos:user:create
+    ```
+    you'll be prompted for username + email + password
+    
+    use this command multiple times, to create 'admin' + some other users
+  - run
+    ```
+    # bin/console fos:user:promote
+    ```
+    you'll be prompted for username + role
+    
+    please use username of your admin, and role should be `ROLE_ADMIN`
+
+  Initial setup finished.
+- let's check setup, open your browser and use an url there `http://localhost:8080/graphiql`, you will see a client for graphql server (unfortunately it can't work with headers)
+
+  but you still can check some calls without authorization here
+- use a client for GraphQL which supports headers (I've used `Altair` extension for Chrome)
+  
+Now you may check calls, according to requirements. Please *note* that `getAuthToken` is also a GraphQL call, username + password should be the same, you've specified at user creation.
+
+All signed calls should use a header   
+```
+X-AUTH-TOKEN: [token-as-is]
+```
+
 Calls
 -----
 ### getAuthToken
@@ -7,10 +60,7 @@ query {
   getAuthToken(username: "user2", password: "111") 
 }
 ```
-Returns token, which should be used for authed calls with header:
-```
-X-AUTH-TOKEN: [token-as-is]
-```
+Returns token, which should be used for authed calls with header.
 
 ### getCatalogs
 *Allowed: Anonymous*
@@ -22,7 +72,7 @@ query {
     }
 }
 ```
-Returns all categories. *Note*:
+Returns all categories.
 Edge items can be used here.
 
 ### getItems
