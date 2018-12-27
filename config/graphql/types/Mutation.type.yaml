@@ -25,7 +25,7 @@ Mutation:
                         type: Int!
                         description: 'Item id.'
                     amount:
-                        type: Int!
+                        type: Int
                         description: 'Amount of the item, to be added'
                 resolve: "@=mutation('basket_add', [args['item'], args['amount']])"
             removeFromBasket:

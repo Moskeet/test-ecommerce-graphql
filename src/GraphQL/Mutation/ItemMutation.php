@@ -4,6 +4,7 @@ namespace App\GraphQL\Mutation;
 
 use App\Entity\Category;
 use App\Entity\Item;
+use App\GraphQL\CheckRoleAllowedTrait;
 use App\GraphQL\Exception\NotAuthorizedException;
 use App\Security\UserExtractorTrait;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,6 +13,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class ItemMutation
 {
     use UserExtractorTrait;
+    use CheckRoleAllowedTrait;
 
     /**
      * @var EntityManagerInterface
@@ -45,11 +47,7 @@ class ItemMutation
     public function createAction(int $category, string $name, float $price) :?Item
     {
         $user = $this->extractUser($this->tokenStorage);
-
-        if (!$user || !$user->hasRole('ROLE_ADMIN')) {
-            throw new NotAuthorizedException();
-        }
-
+        $this->checkRoleAllowed('ROLE_ADMIN', $user);
         $category = $this->em->getRepository(Category::class)->find($category);
         $item = new Item();
         $item

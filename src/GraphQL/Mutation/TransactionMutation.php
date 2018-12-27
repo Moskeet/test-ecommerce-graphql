@@ -7,6 +7,7 @@ use App\Entity\BasketItem;
 use App\Entity\Category;
 use App\Entity\Transaction;
 use App\Entity\User;
+use App\GraphQL\CheckRoleAllowedTrait;
 use App\GraphQL\Exception\NotAuthorizedException;
 use App\Security\UserExtractorTrait;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,6 +16,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class TransactionMutation
 {
     use UserExtractorTrait;
+    use CheckRoleAllowedTrait;
 
     /**
      * @var EntityManagerInterface
@@ -48,11 +50,7 @@ class TransactionMutation
     public function createAction() :Transaction
     {
         $user = $this->extractUser($this->tokenStorage);
-
-        if (!$user || !$user->hasRole('ROLE_USER')) {
-            throw new NotAuthorizedException();
-        }
-
+        $this->checkRoleAllowed('ROLE_ADMIN', $user);
         $basket = $this->getBasket($user);
         $transaction = $this->generateTransaction($basket);
         $this->em->remove($basket);

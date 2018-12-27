@@ -3,6 +3,7 @@
 namespace App\GraphQL\Mutation;
 
 use App\Entity\Category;
+use App\GraphQL\CheckRoleAllowedTrait;
 use App\GraphQL\Exception\NotAuthorizedException;
 use App\Security\UserExtractorTrait;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,6 +13,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class CategoryMutation implements MutationInterface
 {
     use UserExtractorTrait;
+    use CheckRoleAllowedTrait;
 
     /**
      * @var EntityManagerInterface
@@ -43,11 +45,7 @@ class CategoryMutation implements MutationInterface
     public function createAction(string $name) :?Category
     {
         $user = $this->extractUser($this->tokenStorage);
-
-        if (!$user || !$user->hasRole('ROLE_ADMIN')) {
-            throw new NotAuthorizedException();
-        }
-
+        $this->checkRoleAllowed('ROLE_ADMIN', $user);
         $category = new Category();
         $category->setName($name);
         $this->em->persist($category);

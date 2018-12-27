@@ -4,6 +4,7 @@ namespace App\GraphQL\Resolver;
 
 use App\Entity\Transaction;
 use App\Entity\User;
+use App\GraphQL\CheckRoleAllowedTrait;
 use App\GraphQL\Exception\NotAuthorizedException;
 use App\Security\UserExtractorTrait;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,6 +15,7 @@ class TransactionResolver implements ResolverInterface
 {
     use InvokeTrait;
     use UserExtractorTrait;
+    use CheckRoleAllowedTrait;
 
 
     /**
@@ -45,7 +47,8 @@ class TransactionResolver implements ResolverInterface
      */
     public function getTransaction(string $id) :Transaction
     {
-        $this->checkRoleAllowed('ROLE_ADMIN');
+        $user = $this->extractUser($this->tokenStorage);
+        $this->checkRoleAllowed('ROLE_ADMIN', $user);
 
         return $this->em->find(Transaction::class, $id);
     }
@@ -55,7 +58,8 @@ class TransactionResolver implements ResolverInterface
      */
     public function getTransactionStatus() :string
     {
-        $user = $this->checkRoleAllowed('ROLE_USER');
+        $user = $this->extractUser($this->tokenStorage);
+        $this->checkRoleAllowed('ROLE_USER', $user);
         /** @var Transaction|null $transaction */
         $transaction = $this->em
             ->getRepository(Transaction::class)
@@ -76,7 +80,8 @@ class TransactionResolver implements ResolverInterface
      */
     public function getTransactions(string $id) :array
     {
-        $this->checkRoleAllowed('ROLE_ADMIN');
+        $user = $this->extractUser($this->tokenStorage);
+        $this->checkRoleAllowed('ROLE_ADMIN', $user);
 
         return $this->em
             ->getRepository(Transaction::class)
@@ -134,21 +139,5 @@ class TransactionResolver implements ResolverInterface
     public function totalPrice(Transaction $transaction) :float
     {
         return round($transaction->getTotalPrice(), 2);
-    }
-
-    /**
-     * @param string $role
-     *
-     * @return User
-     */
-    private function checkRoleAllowed(string $role) :User
-    {
-        $user = $this->extractUser($this->tokenStorage);
-
-        if (!$user || !$user->hasRole($role)) {
-            throw new NotAuthorizedException();
-        }
-
-        return $user;
     }
 }

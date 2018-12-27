@@ -4,6 +4,7 @@ namespace App\GraphQL\Resolver;
 
 use App\Entity\Basket;
 use App\Entity\BasketItem;
+use App\GraphQL\CheckRoleAllowedTrait;
 use App\GraphQL\Exception\NotAuthorizedException;
 use App\Security\UserExtractorTrait;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,6 +18,7 @@ class BasketResolver implements ResolverInterface
 {
     use InvokeTrait;
     use UserExtractorTrait;
+    use CheckRoleAllowedTrait;
 
     /**
      * @var EntityManagerInterface
@@ -40,22 +42,12 @@ class BasketResolver implements ResolverInterface
     }
 
     /**
-     * @param bool $showBasket
-     *
      * @return Basket
      */
-    public function resolve(bool $showBasket = true) :Basket
+    public function resolve() :Basket
     {
         $user = $this->extractUser($this->tokenStorage);
-
-        if (!$user || !$user->hasRole('ROLE_ADMIN')) {
-            throw new NotAuthorizedException();
-        }
-
-        if (!$showBasket) {
-            return null;
-        }
-
+        $this->checkRoleAllowed('ROLE_USER', $user);
         $backet = $this->em
             ->getRepository(Basket::class)
             ->getUserBasket($user)
@@ -73,11 +65,7 @@ class BasketResolver implements ResolverInterface
     public function getBasket() :Basket
     {
         $user = $this->extractUser($this->tokenStorage);
-
-        if (!$user || !$user->hasRole('ROLE_ADMIN')) {
-            throw new NotAuthorizedException();
-        }
-
+        $this->checkRoleAllowed('ROLE_USER', $user);
         $backet = $this->em
             ->getRepository(Basket::class)
             ->getUserBasket($user)
@@ -142,11 +130,21 @@ class BasketResolver implements ResolverInterface
      */
     public function basketItems(Basket $basket, Argument $args) :Connection
     {
-        $items = $basket->getBasketItems();
-        $paginator = new Paginator(function ($offset, $limit) use ($items) {
-            return array_slice($items, $offset, $limit ?? 10);
+        $repository = $this->em->getRepository(BasketItem::class);
+        $paginator = new Paginator(function ($offset, $limit) use ($basket, $repository) {
+            return $repository
+                ->findBy(
+                    [
+                        'basket' => $basket->getId(),
+                    ],
+                    [
+                        'id' => 'ASC',
+                    ],
+                    $limit ?? 10,
+                    $offset ?? 0)
+            ;
         });
 
-        return $paginator->auto($args, count($items));
+        return $paginator->auto($args, count($basket->getBasketItems()));
     }
 }

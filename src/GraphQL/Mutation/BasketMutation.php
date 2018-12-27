@@ -6,6 +6,7 @@ use App\Entity\Basket;
 use App\Entity\BasketItem;
 use App\Entity\Item;
 use App\Entity\User;
+use App\GraphQL\CheckRoleAllowedTrait;
 use App\GraphQL\Exception\NotAuthorizedException;
 use App\Security\UserExtractorTrait;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,6 +16,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class BasketMutation implements MutationInterface
 {
     use UserExtractorTrait;
+    use CheckRoleAllowedTrait;
 
     /**
      * @var EntityManagerInterface
@@ -46,7 +48,8 @@ class BasketMutation implements MutationInterface
      */
     public function basketAddItem(int $item, int $amount = 1) :Basket
     {
-        $user = $this->checkUserAllowed();
+        $user = $this->extractUser($this->tokenStorage);
+        $this->checkRoleAllowed('ROLE_USER', $user);
 
         if ($amount <= 0) {
             throw new \LogicException('Amount should be greater than 0.');
@@ -74,7 +77,8 @@ class BasketMutation implements MutationInterface
      */
     public function basketRemoveItem(int $item) :Basket
     {
-        $user = $this->checkUserAllowed();
+        $user = $this->extractUser($this->tokenStorage);
+        $this->checkRoleAllowed('ROLE_USER', $user);
         $itemElement = $this->findItem($item);
 
         if (!$itemElement) {
@@ -91,20 +95,6 @@ class BasketMutation implements MutationInterface
         }
 
         return $basket;
-    }
-
-    /**
-     * @return User
-     */
-    private function checkUserAllowed() :User
-    {
-        $user = $this->extractUser($this->tokenStorage);
-
-        if (!$user || !$user->hasRole('ROLE_USER')) {
-            throw new NotAuthorizedException();
-        }
-
-        return $user;
     }
 
     /**

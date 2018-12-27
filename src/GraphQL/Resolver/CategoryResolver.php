@@ -3,6 +3,7 @@
 namespace App\GraphQL\Resolver;
 
 use App\Entity\Category;
+use App\Entity\Item;
 use Doctrine\ORM\EntityManagerInterface;
 use Overblog\GraphQLBundle\Definition\Argument;
 use Overblog\GraphQLBundle\Definition\Resolver\ResolverInterface;
@@ -27,21 +28,21 @@ class CategoryResolver implements ResolverInterface
     }
 
     /**
-     * @param string $id
+     * @param int $id
      *
-     * @return Category
+     * @return Category|null
      */
-    public function resolve(string $id) :Category
+    public function resolve(int $id) :?Category
     {
         return $this->em->find(Category::class, $id);
     }
 
     /**
-     * @param string $id
+     * @param int $id
      *
      * @return Category
      */
-    public function getCategory(string $id) :Category
+    public function getCategory(int $id) :Category
     {
         return $this->em->find(Category::class, $id);
     }
@@ -85,11 +86,21 @@ class CategoryResolver implements ResolverInterface
      */
     public function items(Category $category, Argument $args) :Connection
     {
-        $items = (array) $category->getItems();
-        $paginator = new Paginator(function ($offset, $limit) use ($items) {
-            return array_slice($items, $offset, $limit ?? 10);
+        $repository = $this->em->getRepository(Item::class);
+        $paginator = new Paginator(function ($offset, $limit) use ($category, $repository) {
+            return $repository
+                ->findBy(
+                    [
+                        'category' => $category->getId(),
+                    ],
+                    [
+                        'id' => 'ASC',
+                    ],
+                    $limit ?? 10,
+                    $offset ?? 0)
+                ;
         });
 
-        return $paginator->auto($args, count($items));
+        return $paginator->auto($args, count($category->getItems()));
     }
 }

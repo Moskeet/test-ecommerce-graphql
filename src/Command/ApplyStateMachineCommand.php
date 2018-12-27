@@ -55,17 +55,17 @@ class ApplyStateMachineCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $allApplyable = $this->em->getRepository(Transaction::class)->getStateChangable();
+        $notFinal = $this->em->getRepository(Transaction::class)->getStateChangable();
         $transactionWorkflow = $this->registry->get(new Transaction());
 
-        foreach ($allApplyable as $transaction) {
+        foreach ($notFinal as $transaction) {
             /** @var Transaction $transaction */
             if ($transactionWorkflow->can($transaction, 'accept')) {
                 if ($transaction->getOwner()->getMoney() >= $transaction->getTotalPrice()) {
                     $transactionWorkflow->apply($transaction, 'accept');
-                    $user = $transaction->getOwner();
-                    $user->setMoney($user->getMoney() - $transaction->getTotalPrice());
-                    $this->em->flush();
+//                    $user = $transaction->getOwner();
+//                    $user->setMoney($user->getMoney() - $transaction->getTotalPrice());
+//                    $this->em->flush();
                     $io->note(sprintf('%d: accepted', $transaction->getId()));
 
                     continue;
